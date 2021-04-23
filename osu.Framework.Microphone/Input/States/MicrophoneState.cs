@@ -24,6 +24,9 @@ namespace osu.Framework.Input.States
 
         public bool Equals(MicrophoneState other)
         {
+            if (other == null)
+                return false;
+
             return Pitch == other.Pitch && Loudness == other.Loudness;
         }
 

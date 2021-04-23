@@ -25,10 +25,10 @@ namespace osu.Framework.Input
             base.LoadComplete();
 
             // Use handler like iOS microphone handler if there's exist handler in dependencies.
-            if (Host.Dependencies.Get(typeof(OsuTKMicrophoneHandler)) is OsuTKMicrophoneHandler handler)
-                AddHandler(Activator.CreateInstance(handler.GetType()) as OsuTKMicrophoneHandler);
+            if (Host.Dependencies.Get(typeof(OsuTkMicrophoneHandler)) is OsuTkMicrophoneHandler handler)
+                AddHandler(Activator.CreateInstance(handler.GetType()) as OsuTkMicrophoneHandler);
             else
-                AddHandler(new OsuTKMicrophoneHandler(deviceId));
+                AddHandler(new OsuTkMicrophoneHandler(deviceId));
         }
 
         public override void HandleInputStateChange(InputStateChangeEvent inputStateChange)
@@ -47,6 +47,9 @@ namespace osu.Framework.Input
         {
             var inputState = microphoneSoundChange.State as IMicrophoneInputState;
             var lastState = microphoneSoundChange.LastState;
+            if (inputState == null)
+                throw new ArgumentNullException(nameof(lastState));
+
             var state = inputState.Microphone;
 
             if (!lastState.HasSound && state.HasSound)
